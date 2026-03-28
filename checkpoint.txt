@@ -1,0 +1,28 @@
+Since I don't have a direct "Save" button to your local hard drive, the best way to ensure you don't lose progress is for me to provide a Project Checkpoint Summary. You can copy this into a text file (like checkpoint.txt) in your project root, and if your chat history isn't preserved after the restart, you can simply paste this summary back to me to resume exactly where we left off.
+
+🚀 Project Checkpoint: Israeli Finance Hub
+Project Goal: A full-stack web application (React + Python + PostgreSQL) for calculating Net Salary (Israeli 2024 brackets) and Mortgage (Spitzer method).
+
+Current Status:
+
+Backend (FastAPI):
+
+Logic: calculations.py handles progressive tax, points (Nekudot Zichuy) based on gender and child ages (0-18), and National Insurance.
+Database: SQLAlchemy 2.0 with PostgreSQL. Models for SalaryCalculation and MortgageCalculation are defined.
+Fixes: Updated requirements.txt for Python 3.13 compatibility (SQLAlchemy >= 2.0.36, Psycopg2-binary >= 2.9.10). Fixed ImportError in models.py by using absolute imports.
+Command: python -m uvicorn main:app --reload (Runs on port 8000).
+Frontend (React):
+
+Build System: Custom Webpack 5 + Babel setup (no Vite/CRA).
+Styling: Tailwind CSS with RTL (Right-to-Left) support for Hebrew.
+Components: SalaryCalculator.js (with dynamic child age inputs) and MortgageCalculator.js are linked to the API.
+Command: npm start (Runs on port 3000).
+Infrastructure:
+
+docker-compose.yml and Dockerfiles are ready for containerization.
+Pending Tasks:
+
+Implementing the History Table to display previous calculations fetched from /api/history/....
+Adding data visualization (charts) for mortgage amortization.
+Formatting currency values using Intl.NumberFormat('he-IL', { style: 'currency', currency: 'ILS' }).
+Files created/modified: main.py, models.py, database.py, calculations.py, schemas.py, .env, requirements.txt, App.js, SalaryCalculator.js, MortgageCalculator.js, index.js, index.css, webpack.config.js, package.json.
