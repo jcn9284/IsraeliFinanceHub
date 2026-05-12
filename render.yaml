@@ -15,7 +15,7 @@ services:
         value: 3.11.9
 
   # Frontend Static Site
-  - type: static
+  - type: static_site
     name: israeli-finance-frontend
     rootDir: client
     buildCommand: npm install && npm run build
@@ -23,6 +23,7 @@ services:
     envVars:
       - key: REACT_APP_API_URL
         fromService:
+          type: web
           name: israeli-finance-backend
           property: url
 
