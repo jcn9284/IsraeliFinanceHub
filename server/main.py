@@ -16,7 +16,7 @@ app = FastAPI(title="Israeli Finance Hub API", version="1.1.0")
 # Enable CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # TODO: Replace with your .onrender.com URL after first deploy
+    allow_origins=["https://israeli-finance-frontend.onrender.com/"],  # TODO: Replace with your .onrender.com URL after first deploy
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
