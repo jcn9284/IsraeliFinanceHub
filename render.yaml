@@ -23,7 +23,10 @@ services:
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://israeli-finance-backend.onrender.com
+        fromService:
+          type: web
+          name: israeli-finance-backend
+          property: url
 
 databases:
   - name: finance-db
