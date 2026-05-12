@@ -1,26 +1,23 @@
-# Node
-node_modules/
-npm-debug.log
-build/
-dist/
-
 # Python
 __pycache__/
-*.py[cod]
-*$py.class
-venv/
+*.pyc
 .venv/
-env/
+venv/
 .env
 
-# Database
-*.db
-*.sqlite
+# Node.js
+node_modules/
+build/
+.parcel-cache/
+dist/
 
-# OS
+# IDE specific files
+.vscode/
+.idea/
+
+# Operating System files
 .DS_Store
 Thumbs.db
 
-# IDE
-.vscode/
-.idea/
+# Checkpoint file (if you don't want to track it)
+checkpoint.txt
