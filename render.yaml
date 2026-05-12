@@ -12,7 +12,7 @@ services:
           name: finance-db
           property: connectionString
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: 3.11.9
 
   # Frontend Static Site
   - type: static
@@ -23,10 +23,7 @@ services:
     staticPublishPath: build
     envVars:
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: israeli-finance-backend
-          property: url
+        value: https://israeli-finance-backend.onrender.com
 
 databases:
   - name: finance-db
