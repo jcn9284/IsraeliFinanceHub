@@ -11,15 +11,18 @@ services:
         fromDatabase:
           name: finance-db
           property: connectionString
+
       - key: PYTHON_VERSION
         value: 3.11.9
 
   # Frontend Static Site
-  - type: static_site
+  - type: web
     name: israeli-finance-frontend
+    runtime: static
     rootDir: client
     buildCommand: npm install && npm run build
-    publishPath: build
+    staticPublishPath: build
+
     envVars:
       - key: REACT_APP_API_URL
         fromService:
