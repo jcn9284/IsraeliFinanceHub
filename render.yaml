@@ -23,7 +23,7 @@ services:
     name: israeli-finance-frontend
     rootDir: client
     buildCommand: npm install && npm run build
-    publishPath: build
+    publishPath: dist
     envVars:
       - key: REACT_APP_API_URL
         fromService:
