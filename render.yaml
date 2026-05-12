@@ -3,7 +3,7 @@ services:
   - type: web
     name: israeli-finance-backend
     runtime: python
-    rootDir: server
+    rootDir: SalaryAndMortgage/server
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -18,7 +18,7 @@ services:
   - type: static
     name: israeli-finance-frontend
     runtime: node
-    rootDir: client
+    rootDir: SalaryAndMortgage/client
     buildCommand: npm install && npm run build
     staticPublishPath: build
     envVars:
