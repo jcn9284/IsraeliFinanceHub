@@ -7,6 +7,8 @@ class SalaryBase(BaseModel):
     gross_salary: float = Field(..., gt=0, description="Monthly gross salary in NIS")
     child_ages: List[int] = Field(default=[], description="List of ages for children")
     is_woman: bool = Field(default=False, description="Whether the taxpayer is a woman")
+    include_pension: bool = Field(default=True, description="Include 6% pension deduction")
+    has_study_fund: bool = Field(default=False, description="Include 2.5% study fund deduction")
 
 class SalaryCreate(SalaryBase):
     pass
@@ -17,6 +19,9 @@ class SalaryResponse(SalaryBase):
     points: float
     tax: float
     social_security: float
+    pension_deduction: float
+    study_fund_deduction: float
+    employer_cost: float
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)

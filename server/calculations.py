@@ -1,6 +1,9 @@
 from typing import Dict, List
 
-def calculate_israeli_tax(gross_salary: float, child_ages: List[int], is_woman: bool) -> Dict[str, float]:
+def calculate_israeli_tax(
+    gross_salary: float, child_ages: List[int], is_woman: bool, 
+    include_pension: bool = True, has_study_fund: bool = False
+) -> Dict[str, float]:
     """
     Calculates Israeli Net Salary based on 2026 tax brackets (2025 frozen levels).
     """
@@ -56,13 +59,29 @@ def calculate_israeli_tax(gross_salary: float, child_ages: List[int], is_woman: 
     else:
         social_security = (low_bracket_limit * 0.0676) + ((gross_salary - low_bracket_limit) * 0.1715)
 
-    net_salary = gross_salary - final_income_tax - social_security
+    # 4. Pension and Study Fund (Keren Hishtalmut)
+    # Standard employee rates: Pension 6%, Study Fund 2.5%
+    pension_deduction = (gross_salary * 0.06) if include_pension else 0.0
+    study_fund_deduction = (gross_salary * 0.025) if has_study_fund else 0.0
+
+    # 5. Employer Cost Calculation (Simplified)
+    # Employer: Pension (6.5%), Severance (8.33%), Study Fund (7.5%), Employer Bituach Leumi (~7.5%)
+    employer_pension = (gross_salary * 0.065) if include_pension else 0.0
+    employer_severance = (gross_salary * 0.0833) if include_pension else 0.0
+    employer_study_fund = (gross_salary * 0.075) if has_study_fund else 0.0
+    employer_tax = gross_salary * 0.075 # Average employer social security
+    total_employer_cost = gross_salary + employer_pension + employer_severance + employer_study_fund + employer_tax
+
+    net_salary = gross_salary - final_income_tax - social_security - pension_deduction - study_fund_deduction
 
     return {
         "net_salary": round(net_salary, 2),
         "points": round(points, 2),
         "tax": round(final_income_tax, 2),
-        "social_security": round(social_security, 2)
+        "social_security": round(social_security, 2),
+        "pension_deduction": round(pension_deduction, 2),
+        "study_fund_deduction": round(study_fund_deduction, 2),
+        "employer_cost": round(total_employer_cost, 2)
     }
 
 def calculate_mortgage_details(loan_amount: float, annual_interest: float, years: int) -> Dict[str, float]:

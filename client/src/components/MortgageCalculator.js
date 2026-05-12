@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Home, Percent, Calendar, Calculator } from 'lucide-react';
-import { API_BASE_URL } from '../api/config';
+import { API_BASE_URL, APP_VERSION } from '../api/config';
 
 const MortgageCalculator = () => {
   const [inputs, setInputs] = useState({
@@ -121,6 +121,9 @@ const MortgageCalculator = () => {
           </div>
         </div>
       )}
+      <div className="mt-8 text-center">
+        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Version {APP_VERSION}</span>
+      </div>
     </div>
   );
 };

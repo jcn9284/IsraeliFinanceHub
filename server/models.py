@@ -1,28 +1,34 @@
-from sqlalchemy import Float, Integer, DateTime, func, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
-from datetime import datetime
+from sqlalchemy import Column, Integer, Float, Boolean, DateTime
+from sqlalchemy.sql import func
 from database import Base
 
 class SalaryCalculation(Base):
     __tablename__ = "salary_calculations"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    gross_salary: Mapped[float] = mapped_column(Float, nullable=False)
-    children: Mapped[int] = mapped_column(Integer, default=0)
-    is_woman: Mapped[bool] = mapped_column(Boolean, default=False)
-    points: Mapped[float] = mapped_column(Float, default=2.25)
-    net_salary: Mapped[float] = mapped_column(Float, nullable=False)
-    tax: Mapped[float] = mapped_column(Float, nullable=False)
-    social_security: Mapped[float] = mapped_column(Float, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    id = Column(Integer, primary_key=True, index=True)
+    gross_salary = Column(Float, nullable=False)
+    children = Column(Integer, default=0)
+    is_woman = Column(Boolean, default=False)
+    points = Column(Float)
+    net_salary = Column(Float)
+    tax = Column(Float)
+    social_security = Column(Float)
+    
+    # New fields for 2026 expansion
+    pension_deduction = Column(Float)
+    study_fund_deduction = Column(Float)
+    employer_cost = Column(Float)
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class MortgageCalculation(Base):
     __tablename__ = "mortgage_calculations"
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
-    loan_amount: Mapped[float] = mapped_column(Float, nullable=False)
-    interest_rate: Mapped[float] = mapped_column(Float, nullable=False)
-    years: Mapped[int] = mapped_column(Integer, nullable=False)
-    monthly_payment: Mapped[float] = mapped_column(Float, nullable=False)
-    total_payment: Mapped[float] = mapped_column(Float, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    id = Column(Integer, primary_key=True, index=True)
+    loan_amount = Column(Float, nullable=False)
+    interest_rate = Column(Float, nullable=False)
+    years = Column(Integer, nullable=False)
+    monthly_payment = Column(Float)
+    total_payment = Column(Float)
+    
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

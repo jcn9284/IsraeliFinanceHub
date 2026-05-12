@@ -11,7 +11,7 @@ from database import engine, get_db
 # Create database tables on startup
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Israeli Finance Hub API")
+app = FastAPI(title="Israeli Finance Hub API", version="1.1.0")
 
 # Enable CORS for React frontend
 app.add_middleware(
@@ -25,7 +25,10 @@ app.add_middleware(
 @app.post("/api/salary", response_model=schemas.SalaryResponse)
 def calculate_salary(request: schemas.SalaryCreate, db: Session = Depends(get_db)):
     """Calculates net salary and persists the result."""
-    res = calculations.calculate_israeli_tax(request.gross_salary, request.child_ages, request.is_woman)
+    res = calculations.calculate_israeli_tax(
+        request.gross_salary, request.child_ages, request.is_woman,
+        request.include_pension, request.has_study_fund
+    )
     
     db_record = models.SalaryCalculation(
         gross_salary=request.gross_salary,
@@ -34,7 +37,10 @@ def calculate_salary(request: schemas.SalaryCreate, db: Session = Depends(get_db
         points=res["points"],
         net_salary=res["net_salary"],
         tax=res["tax"],  # This uses the points calculated inside the function
-        social_security=res["social_security"]
+        social_security=res["social_security"],
+        pension_deduction=res["pension_deduction"],
+        study_fund_deduction=res["study_fund_deduction"],
+        employer_cost=res["employer_cost"]
     )
     
     db.add(db_record)

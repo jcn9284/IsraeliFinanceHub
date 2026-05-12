@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Coins, Calculator, Info, User, Users } from 'lucide-react';
-import { API_BASE_URL } from '../api/config';
+import { Coins, Calculator, Info, User, Users, ShieldCheck, GraduationCap, Building } from 'lucide-react';
+import { API_BASE_URL, APP_VERSION } from '../api/config';
 
 const SalaryCalculator = () => {
   const [gross, setGross] = useState('');
   const [childAges, setChildAges] = useState([]);
   const [isWoman, setIsWoman] = useState(false);
+  const [includePension, setIncludePension] = useState(true);
+  const [hasStudyFund, setHasStudyFund] = useState(false);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -26,6 +28,8 @@ const SalaryCalculator = () => {
           gross_salary: parseFloat(gross),
           child_ages: childAges,
           is_woman: isWoman,
+          include_pension: includePension,
+          has_study_fund: hasStudyFund,
         }),
       });
 
@@ -128,6 +132,42 @@ const SalaryCalculator = () => {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={() => setIncludePension(!includePension)}
+            className={`p-4 rounded-xl border flex items-center justify-between transition-all ${includePension ? 'bg-blue-50 border-blue-200 text-blue-700' : 'bg-white border-slate-200 text-slate-500'}`}
+          >
+            <div className="flex items-center gap-3">
+              <ShieldCheck size={20} />
+              <div className="text-right">
+                <div className="text-sm font-bold">הפרשה לפנסיה (6%)</div>
+                <div className="text-[10px] opacity-70">חובה על פי חוק</div>
+              </div>
+            </div>
+            <div className={`w-10 h-5 rounded-full relative transition-colors ${includePension ? 'bg-blue-600' : 'bg-slate-300'}`}>
+              <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${includePension ? 'right-6' : 'right-1'}`} />
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setHasStudyFund(!hasStudyFund)}
+            className={`p-4 rounded-xl border flex items-center justify-between transition-all ${hasStudyFund ? 'bg-indigo-50 border-indigo-200 text-indigo-700' : 'bg-white border-slate-200 text-slate-500'}`}
+          >
+            <div className="flex items-center gap-3">
+              <GraduationCap size={20} />
+              <div className="text-right">
+                <div className="text-sm font-bold">קרן השתלמות (2.5%)</div>
+                <div className="text-[10px] opacity-70">הטבת מעסיק נפוצה</div>
+              </div>
+            </div>
+            <div className={`w-10 h-5 rounded-full relative transition-colors ${hasStudyFund ? 'bg-indigo-600' : 'bg-slate-300'}`}>
+              <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${hasStudyFund ? 'right-6' : 'right-1'}`} />
+            </div>
+          </button>
+        </div>
+
         <button
           type="submit"
           disabled={loading}
@@ -165,6 +205,12 @@ const SalaryCalculator = () => {
               <span className="text-blue-600 font-bold text-lg">{result.points}</span>
             </div>
             <div className="p-5 bg-white border border-slate-100 rounded-2xl shadow-sm flex justify-between items-center">
+              <span className="text-slate-500 font-medium">עלות מעסיק כוללת:</span>
+              <span className="text-emerald-600 font-bold text-lg flex items-center gap-1">
+                <Building size={16} /> {formatCurrency(result.employer_cost)}
+              </span>
+            </div>
+            <div className="p-5 bg-white border border-slate-100 rounded-2xl shadow-sm flex justify-between items-center">
               <span className="text-slate-500 font-medium">מס הכנסה:</span>
               <span className="text-red-500 font-bold text-lg">{formatCurrency(result.tax)}</span>
             </div>
@@ -175,6 +221,9 @@ const SalaryCalculator = () => {
           </div>
         </div>
       )}
+      <div className="mt-8 text-center">
+        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Version {APP_VERSION}</span>
+      </div>
     </div>
   );
 };
